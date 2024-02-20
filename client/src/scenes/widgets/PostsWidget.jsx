@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import state, { setPosts } from "../../state";
+import { setPosts } from "../../state";
 import PostWidget from "./PostWidget";
 
 const PostsWidget = ({ userId, isProfile = false }) => {
@@ -26,13 +26,22 @@ const PostsWidget = ({ userId, isProfile = false }) => {
         dispatch(setPosts({ posts: data }));
     }
 
+    
+
     useEffect(() => {
       if(isProfile) {
         getUserPosts();
       } else {
         getPosts();
       }
-    }, [])
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+    
+
+    // Check if posts is undefined or null, or empty
+    if (!posts) {
+        return <div>Loading posts...</div>;
+    }
     
 
     return (
@@ -52,7 +61,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
                 }) => (
                     <PostWidget
                         key={_id}
-                        postid={_id}
+                        postId={_id}
                         postUserId={userId}
                         name={`${firstName} ${lastName}`}
                         description={description}

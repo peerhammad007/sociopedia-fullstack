@@ -27,7 +27,7 @@ const HomePage = () => {
                     marginTop={isNonMobileScreen ? undefined : '2rem'}
                 >
                     <MyPostWidget picturePath={picturePath} />
-                    <PostsWidget />
+                    <PostsWidget userId={_id} />
                 </Box>
             </Box>
         </Box>
