@@ -22,7 +22,7 @@ const FriendListWidget = ({ userId }) => {
         dispatch(setFriends({ friends: data }));
     }
     useEffect(() => {
-        getFriends();
+        getFriends(); // eslint-disable-next-line
     }, []);
 
     return (
