@@ -38,7 +38,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
     
 
-    // Check if posts is undefined or null, or empty
+    // Check if posts is undefined or null
     if (!posts) {
         return <div>Loading posts...</div>;
     }
