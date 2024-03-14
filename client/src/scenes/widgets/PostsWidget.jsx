@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "../../state";
 import PostWidget from "./PostWidget";
+import BASE_URL from "config";
 
 const PostsWidget = ({ userId }) => {
     const dispatch = useDispatch()
@@ -9,7 +10,7 @@ const PostsWidget = ({ userId }) => {
     const token = useSelector((state) => state.token);
 
     const getPosts = async () => {
-        const response = await fetch(`http://localhost:3001/posts`, {
+        const response = await fetch(`${BASE_URL}/posts`, {
             method: 'GET',
             headers: { Authorization: `Bearer ${token}` },
         })
