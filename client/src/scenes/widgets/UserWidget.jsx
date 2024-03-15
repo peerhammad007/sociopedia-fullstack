@@ -13,7 +13,7 @@ import FlexBetween from "../../components/FlexBetween";
 import WidgetWrapper from "../../components/WidgetWrapper";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import BASE_URL from "config";
+import { getUserApi } from "utils/handleApi";
 
 const UserWidget = ({userId, picturePath}) => {
     const [user, setUser] = useState(null);
@@ -23,17 +23,8 @@ const UserWidget = ({userId, picturePath}) => {
     const medium = palette.neutral.medium;
     const main = palette.neutral.main;
 
-    const getUser = async () => {
-        const response = await fetch(`${BASE_URL}/users/${userId}`, {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await response.json();
-        setUser(data);
-      };
-
     useEffect(() => {
-      getUser() // eslint-disable-next-line
+      getUserApi(userId, token, setUser) // eslint-disable-next-line
     }, []) 
 
     if(!user) {

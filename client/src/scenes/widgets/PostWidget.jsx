@@ -12,6 +12,7 @@ import {
   import { useDispatch, useSelector } from "react-redux";
   import { setPost } from "state";
   import BASE_URL from "config";
+import { patchLikeApi } from "utils/handleApi";
   
   const PostWidget = ({
     postId,
@@ -36,17 +37,9 @@ import {
     const primary = palette.primary.main;
   
     const patchLike = async () => {
-      const response = await fetch(`${BASE_URL}/posts/${postId}/like`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId: loggedInUserId }),
-      });
-      const updatedPost = await response.json();
-      dispatch(setPost({ post: updatedPost }));
+      patchLikeApi(postId, loggedInUserId, token, dispatch, setPost)
     };
+    
   
     return (
       <WidgetWrapper m="2rem 0">

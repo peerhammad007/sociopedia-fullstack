@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
-import BASE_URL from "config";
+import { loginApi, registerApi } from "utils/handleApi";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -54,49 +54,16 @@ const Form = () => {
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
-  const isRegister = pageType === "register";
+  const isRegister = pageType === "register"; 
 
   const register = async (values, onSubmitProps) => {
-    // this allows us to send form info with image
-    const formData = new FormData();
-    for (let value in values) {
-      formData.append(value, values[value]);
-    }
-    formData.append("picturePath", values.picture.name);
-
-    const savedUserResponse = await fetch(
-      `${BASE_URL}/auth/register`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const savedUser = await savedUserResponse.json();
-    onSubmitProps.resetForm();
-
-    if (savedUser) {
-      setPageType("login");
-    }
+    registerApi(values, onSubmitProps, setPageType)
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch(`${BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
-    const loggedIn = await loggedInResponse.json();
-    onSubmitProps.resetForm();
-    if (loggedIn) {
-      dispatch(
-        setLogin({
-          user: loggedIn.user,
-          token: loggedIn.token,
-        })
-      );
-      navigate("/home");
-    }
+    loginApi(values, onSubmitProps, dispatch, setLogin, navigate);
   };
+  
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     if (isLogin) await login(values, onSubmitProps);
